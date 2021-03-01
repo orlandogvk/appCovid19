@@ -4,13 +4,14 @@ from django.contrib.auth.models import User
 from django import forms
 from .models import ModelSearch, ModelCodeSearch, ModelDateCode
 
+#Form register users
 class CreateUserForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username','email','password1','password2']
 
 
-
+#Form search results by date
 class DateInput(forms.DateInput):
     input_type = 'date'
 
@@ -23,7 +24,7 @@ class DateForm(forms.ModelForm):
         }
 
 
-
+#Form search results by code
 class TextInput(forms.TextInput):
     input_type = 'text'
 
@@ -37,7 +38,7 @@ class CodeForm(forms.ModelForm):
 
 
 
-
+#Form search results by cod and date
 class TextInputCountry(forms.TextInput):
     codeIn = 'text'
 class DateInputCountry(forms.DateInput):

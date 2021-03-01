@@ -241,7 +241,7 @@ def countryDate(request):
                     confirmed_value = data['provinces'][0]['confirmed']
                     recovered_value = data['provinces'][0]['recovered']
                     deaths_value = data['provinces'][0]['deaths']
-                    deaths_value = data['provinces'][0]['active']
+                    active_value = data['provinces'][0]['active']
 
                     context = {
                         'country':data['country'],
@@ -249,7 +249,7 @@ def countryDate(request):
                         'confirmed':confirmed_value,
                         'recovered':recovered_value,
                         'deaths':deaths_value,
-                        'active':deaths_value,
+                        'active':active_value,
                         'latitude':data['latitude'],
                         'longitude':data['longitude'],
                         'date':data['date']
