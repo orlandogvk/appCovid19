@@ -1,0 +1,100 @@
+{% extends 'accounts/index.html' %}
+
+{% block title %}Search by date{% endblock %}
+
+{% block content %}
+
+       <section>
+        <div class="container p-4" >
+          <div class="row">
+              <div class="col-sm-4">
+                
+                     <form  class="p-3 border border-danger rounded" method="POST">{% csrf_token %}
+                        <h4 class="p-3 text-white text-center">Search form</h4>
+                        <div class="form-group">
+                            <label for="date_field" class="text-white">Select a date</label>
+                            <input type="date" class="form-control" name="date_input" id="date_field"/>
+                            <input type="submit" class="btn btn-success mt-2" value="Search"/>
+                        </div>
+                    </form>
+              </div>
+              <div class="col-sm-8 text-white">
+                <h3 class="p-3 text-center">Results COVID by date</h3>
+                
+                <div class="row justify-content-between">
+                <div class="col-lg-12 col-md-12 col-xs-12">
+                  <div class="mt-4 text-center justify-content-center row ">
+                    <!-- Start counter -->
+                    <div class="bg-danger mb-3 m-2 rounded-lg p-3 col-lg-3 col-md-6 col-xs-12">
+                      <div class="counter-box wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="icon-o"><i class="lni-users"></i></div>
+                        <div class="fact-count">
+                          <h2><span class="counter"> <b>{{confirmed}}</b> </span></h2>
+                          <h3>Confirmed</h3>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End counter -->
+                    <!-- Start counter -->
+                    <div class="bg-success mb-3 m-2 rounded-lg p-3 col-lg-3 col-md-6 col-xs-12">
+                        <div class="counter-box wow fadeInUp" data-wow-delay="0.2s">
+                          <div class="fact-count">
+                            <h2><span class="counter"> <b>{{recovered}}</b> </span></h2>
+                            <h3>Recovered</h3>
+                          </div>
+                        </div>
+                      </div>
+                    <!-- End counter -->
+                    <!-- Start counter -->
+                    <div class="bg-warning mb-3 m-2 rounded-lg p-3 col-lg-3 col-md-6 col-xs-12">
+                        <div class="counter-box wow fadeInUp" data-wow-delay="0.2s">
+                  
+                          <div class="fact-count">
+                            <h2><span class="counter"> <b>{{critical}}</b> </span></h2>
+                            <h3>Critical</h3>
+                          </div>
+                        </div>
+                      </div>
+                    
+                    <div class="bg-black text-white border border-light mb-3 m-2 rounded-lg p-3 col-lg-3 col-md-6 col-xs-12">
+                      <div class="counter-box wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="fact-count">
+                          <h2><span class="counter"> <b>{{deaths}}</b> </span></h2>
+                          <h3>Deaths</h3>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="bg-info mb-3 m-2 rounded-lg p-3 col-lg-3 col-md-6 col-xs-12">
+                      <div class="counter-box wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="fact-count">
+                          <h2><span class="counter"> <b>{{active}}</b> </span></h2>
+                          <h3>Active</h3>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- End counter -->
+
+                    <div class="bg-secondary mb-3 m-2 rounded-lg p-3 col-lg-3 col-md-6 col-xs-12">
+                        <div class="counter-box wow fadeInUp" data-wow-delay="0.2s">
+                          <div class="icon-o"><i class="lni-users"></i></div>
+                            <div class="fact-count">
+                              <h2><span class="counter h4"> <b>{{date}}</b> </span></h2>
+                              <h3>Date</h3>
+                            </div>
+                        </div>
+                      </div>
+                    <!-- End counter -->
+                  </div>
+                </div>
+              </div>
+
+              </div>
+          </div>
+         
+         </div>
+      </section>
+   
+{% endblock %}
+
+

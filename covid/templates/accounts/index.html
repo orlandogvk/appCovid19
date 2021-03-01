@@ -1,56 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head>   
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wolrd Coronavirus Info Live</title>
-    <link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.min.css">
-</head>
-<body style="background-color: #15202b""> 
+    <title>{% block title %}Wolrd Coronavirus Info Live{% endblock %}</title>
+    {% comment %} <link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.min.css"> {% endcomment %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     
-    <nav class="navbar navbar-expand-lg navbar-black bg-black">
+</head>
+<body style="background-color: #15202b"> 
+    
+    <nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
 
     <a class="navbar-brand" href="{% url 'home' %}">Covid19 <span style="color: red;" >Live</span></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
       <ul class="navbar-nav">
-        <li class="nav-item active">
-          <div></div>
+         
+         <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Explore
+            </a>
+            <div class="dropdown-menu mr-auto" aria-labelledby="navbarDropdownMenuLink">
+              <div>
+                  {% if user.is_authenticated %}
+                    <p class="text-center">
+                    <i class="bi bi-person-circle">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" color="black" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                      </svg>
+                    </i>
+                    </p>
+                  {% endif %}   
+                  <div class="text-center">{{user.username}}</div>
+                  <div class="text-center">{{user.email}}</div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item">Search by :</div>
+              <a class="dropdown-item" href="{% url 'by_date' %}">Date</a>
+              <a class="dropdown-item " href="{% url 'country' %}">Country</a>
+              <a class="dropdown-item" href="{% url 'country_date' %}">Country & Date</a>
+              <div class="dropdown-divider"></div>
+              <a class ="dropdown-item" href="{% url 'logout' %}">Logout</a>
+            </div>
         </li>
       </ul>
     </div>
-
-    {% if user.is_authenticated %}
-      <div >
-        <i class="bi bi-person-circle">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" color="white" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-          </svg>
-        </i>
-        <span style="color: white;">{{user.username}} </span><span> <a href="{% url 'logout' %}">Logout</a></span>
-      </div>
-    {% endif %}
+    
+    
+  
 
 </nav>
 
-
-    <div class="container">
+  {% block content %}
+    <div class="container"> 
+         <div class="text-white p-3">Current local date & time: <span class="text-warning">{{date_time}}</span></div>
         <section id="counter" class="section-padding">
             <div class="overlay"></div>
             <div class="container">
+              <div class="text-white text-center">
+                  <h2>World COVID results</h2>
+              </div>
+          
               <div class="row justify-content-between">
                 <div class="col-lg-12 col-md-12 col-xs-12">
-                  <div class="mt-4 text-center row">
+                  <div class="mt-4 text-center justify-content-center row ">
                     <!-- Start counter -->
                     <div class="bg-danger mb-3 m-2 rounded-lg p-3 col-lg-3 col-md-6 col-xs-12">
                       <div class="counter-box wow fadeInUp" data-wow-delay="0.2s">
                         <div class="icon-o"><i class="lni-users"></i></div>
                         <div class="fact-count">
-                          <h2><span class="counter"> <b></b> </span></h2>
-                          <h3>All cases</h3>
+                          <h2><span class="counter"> <b>{{confirmed}}</b> </span></h2>
+                          <h3>Confirmed</h3>
                         </div>
                       </div>
                     </div>
@@ -58,63 +82,74 @@
                     <!-- Start counter -->
                     <div class="bg-success mb-3 m-2 rounded-lg p-3 col-lg-3 col-md-6 col-xs-12">
                         <div class="counter-box wow fadeInUp" data-wow-delay="0.2s">
-                          <div class="icon-o"><i class="lni-users"></i></div>
                           <div class="fact-count">
-                            <h2><span class="counter"> <b></b> </span></h2>
-                            <h3>Recover</h3>
+                            <h2><span class="counter"> <b>{{recovered}}</b> </span></h2>
+                            <h3>Recovered</h3>
                           </div>
                         </div>
                       </div>
                     <!-- End counter -->
                     <!-- Start counter -->
-                    <div class="bg-secondary mb-3 m-2 rounded-lg p-3 col-lg-3 col-md-6 col-xs-12">
+                    <div class="bg-warning mb-3 m-2 rounded-lg p-3 col-lg-3 col-md-6 col-xs-12">
                         <div class="counter-box wow fadeInUp" data-wow-delay="0.2s">
-                          <div class="icon-o"><i class="lni-users"></i></div>
+                  
                           <div class="fact-count">
-                            <h2><span class="counter"> <b></b> </span></h2>
-                            <h3>Deaths</h3>
+                            <h2><span class="counter"> <b>{{critical}}</b> </span></h2>
+                            <h3>Critical</h3>
                           </div>
                         </div>
                       </div>
                     
-                  <div class="bg-warning mb-3 m-2 rounded-lg p-3 col-lg-3 col-md-6 col-xs-12">
-                    <div class="counter-box wow fadeInUp" data-wow-delay="0.2s">
-                      <div class="icon-o"><i class="lni-users"></i></div>
-                      <div class="fact-count">
-                        <h2><span class="counter"> <b></b> </span></h2>
-                        <h3>New cases</h3>
+                    <div class="bg-black text-white border border-light mb-3 m-2 rounded-lg p-3 col-lg-3 col-md-6 col-xs-12">
+                      <div class="counter-box wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="fact-count">
+                          <h2><span class="counter"> <b>{{deaths}}</b> </span></h2>
+                          <h3>Deaths</h3>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="bg-info mb-3 m-2 rounded-lg p-3 col-lg-3 col-md-6 col-xs-12">
-                    <div class="counter-box wow fadeInUp" data-wow-delay="0.2s">
-                      <div class="icon-o"><i class="lni-users"></i></div>
-                      <div class="fact-count">
-                        <h2><span class="counter"> <b></b> </span></h2>
-                        <h3>Critical cases</h3>
+                    <div class="bg-info mb-3 m-2 rounded-lg p-3 col-lg-3 col-md-6 col-xs-12">
+                      <div class="counter-box wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="fact-count">
+                          <h2><span class="counter h5"> <b>{{lastChange}}</b> </span></h2>
+                          <h3>Last change</h3>
+                        </div>
                       </div>
                     </div>
+                    <!-- End counter -->
+
+                    <div class="bg-secondary mb-3 m-2 rounded-lg p-3 col-lg-3 col-md-6 col-xs-12">
+                        <div class="counter-box wow fadeInUp" data-wow-delay="0.2s">
+                          <div class="icon-o"><i class="lni-users"></i></div>
+                            <div class="fact-count">
+                              <h2><span class="counter h5"> <b>{{lastUpdate}}</b> </span></h2>
+                              <h3>Last update</h3>
+                            </div>
+                        </div>
+                      </div>
+                    <!-- End counter -->
                   </div>
-                <!-- End counter -->
-              </div>
                 </div>
               </div>
             </div>
           </section>
           <!-- Counter Section End -->
  
-    </div>
+    </div>  
+  {% endblock %}
+
     <footer>
-        <div class="text-center">
-            <p class="bg-success"> Developed by Orlando Rodriguez.&copy;- Technical test -</p>
+        <div class="text-center p-5">
+            <p class="bg-success p-3 text-white"> Developed by Orlando Rodriguez.&copy; - Technical test -</p>
         </div>
         
     </footer>
 
-
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    
 </body>
 </html>
